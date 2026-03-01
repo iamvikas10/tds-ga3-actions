@@ -5,18 +5,23 @@ on:
       - cron: '30 5 * * *'
         workflow_dispatch:
 
-        jobs:
-          daily-commit:
-              runs-on: ubuntu-latest
-                  steps:
-                        - name: Checkout
-                                uses: actions/checkout@v3
+        permissions:
+          contents: write
 
-                                      - name: 21f3001966@ds.study.iitm.ac.in - Daily update
-                                              run: |
-                                                        git config user.email "21f3001966@ds.study.iitm.ac.in"
-                                                                  git config user.name "GitHub Actions"
-                                                                            echo "Daily update: $(date)" >> daily_log.txt
-                                                                                      git add daily_log.txt
-                                                                                                git commit -m "Daily automated commit $(date)"
-                                                                                                          git push
+          jobs:
+            daily-commit:
+                runs-on: ubuntu-latest
+                    steps:
+                          - name: Checkout
+                                  uses: actions/checkout@v3
+                                          with:
+                                                    token: ${{ secrets.GITHUB_TOKEN }}
+
+                                                          - name: 21f3001966@ds.study.iitm.ac.in - Daily update
+                                                                  run: |
+                                                                            git config user.email "21f3001966@ds.study.iitm.ac.in"
+                                                                                      git config user.name "GitHub Actions Bot"
+                                                                                                echo "Daily update: $(date)" >> daily_log.txt
+                                                                                                          git add daily_log.txt
+                                                                                                                    git commit -m "Daily automated commit - $(date)"
+                                                                                                                              git push
